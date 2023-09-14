@@ -1,0 +1,38 @@
+.di{
+    display: flex;
+    justify-content: space-between;
+}
+img{
+    height: 100px;
+    width: 100px;
+}
+body{
+    background-image: url(https://img.freepik.com/free-vector/shopping-online-sale-background_23-2147509490.jpg);
+    background-repeat: no-repeat;
+    background-size: 100%;
+}
+.tsawer{
+    height: 400px;
+    width: 400px;
+}
+header{
+    background-color: beige;
+}
+h1{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: red;
+    font-size: xx-large;
+    text-align: center;
+}
+.btn-moins{
+    height: 30px;
+    width: 30px;
+    background-color: darkred;
+    color: white;
+}
+.btn-plus{
+    height: 30px;
+    width:30px;
+    background-color: rgb(23, 194, 23);
+    color: white;
+}
