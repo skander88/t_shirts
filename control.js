@@ -1,88 +1,68 @@
-var btnmoins = document.getElementsByClassName('btn-moins');
+document.addEventListener("DOMContentLoaded", function () {
+  var btnMinus = document.querySelectorAll(".btn-minus");
+  var btnPlus = document.querySelectorAll(".btn-plus");
+  var btnLike = document.querySelectorAll(".btn-like");
+  var btnDelete = document.querySelectorAll(".btn-delete");
+  var totalPriceElement = document.getElementById("totalPrice");
 
-console.log('btnmoins',btnmoins)
+  for (let i = 0; i < btnMinus.length; i++) {
+    btnMinus[i].addEventListener("click", function () {
+      updateQuantity(i, -1);
+    });
+  }
 
+  for (let i = 0; i < btnPlus.length; i++) {
+    btnPlus[i].addEventListener("click", function () {
+      updateQuantity(i, 1);
+    });
+  }
 
-for (let i=0;i<btnmoins.length;i++){
+  for (let i = 0; i < btnLike.length; i++) {
+    btnLike[i].addEventListener("click", function () {
+      toggleLike(i);
+    });
+  }
 
-btnmoins[i].addEventListener('click',function(){
-if(btnmoins[i].nextElementSibling.innerText > 0)
-{btnmoins[i].nextElementSibling.innerText --
-}
-//update apres click de moins et une verification si le span est a 0 ou nn 
-totalPrice()
-}
-)
-}
+  for (let i = 0; i < btnDelete.length; i++) {
+    btnDelete[i].addEventListener("click", function () {
+      deleteItem(i);
+    });
+  }
 
-var btnplus = document.getElementsByClassName('btn-plus');
-console.log('btnplus',btnplus)
+  function updateQuantity(index, change) {
+    var quantityElement = document.querySelectorAll(".quantity")[index];
+    var currentQuantity = parseInt(quantityElement.innerText);
+    var newQuantity = currentQuantity + change;
 
+    if (newQuantity >= 0) {
+      quantityElement.innerText = newQuantity;
+      updateTotalPrice();
+    }
+  }
 
-for (let j=0;j<btnplus.length ; j++){
-btnplus[j].addEventListener('click',function(){
-    btnplus[j].previousElementSibling.innerText ++
-    //update apres   click de plus 
-    totalPrice()
-})
+  function toggleLike(index) {
+    var likeButton = btnLike[index];
+    likeButton.classList.toggle("liked");
+    updateTotalPrice(); // Like action may affect the total price
+  }
 
-}
+  function deleteItem(index) {
+    var item = document.querySelectorAll(".item")[index];
+    item.remove();
+    updateTotalPrice();
+  }
 
-//partie coeur 
+  function updateTotalPrice() {
+    var prices = document.querySelectorAll(".price");
+    var quantities = document.querySelectorAll(".quantity");
+    var total = 0;
 
-var heartbtn = document.getElementsByClassName('fa-heart')
+    for (let i = 0; i < prices.length; i++) {
+      var price = parseFloat(prices[i].innerText.slice(0, -2)); // remove 'dt' and convert to float
+      var quantity = parseInt(quantities[i].innerText);
+      total += price * quantity;
+    }
 
-console.log('hearts',heartbtn)
-
-for ( let btn of heartbtn){
-    btn.addEventListener('click',function(){
-        if(btn.style.color === "gray"){
-            btn.style.color = "red"
-        }else{
-            btn.style.color = "gray"
-        }
-    })
-}
-
-
-
-
-//partie croix 
-
-var deletbtn = document.querySelectorAll('.btn-delete')
-console.log('delet',deletbtn)
-
-for (let k=0;k<deletbtn.length;k++){
-
-deletbtn[k].addEventListener('click',()=>{
-deletbtn[k].parentElement.parentElement.remove()
-
-//update de la totalite de mon pannier 
-
-totalPrice()
-})
-
-
-}
-
-//total price 
-
-function totalPrice(){
-
-//get element price 
-var productPrice = document.getElementsByClassName('prx')
-
-console.log('prx',productPrice)
-var productQuatity = document.getElementsByClassName('quantity')
-console.log('quantity',productQuatity)
-
-let sum = 0
-
-for (let i=0 ; i<productPrice.length ; i++){
-
-sum += productPrice[i].innerText * productQuatity[i].innerText
-
-}
-document.getElementById('prix-total').innerText = sum
-
-}
+    totalPriceElement.innerText = total.toFixed(2);
+  }
+});
